@@ -8,20 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class FileTreeImpl implements FileTree {
+    String bytes=" bytes";
 
     @Override
     public Optional<String> tree(Path path) {
-
         File file = new File(String.valueOf(path));
         if (!file.exists()) return Optional.empty();
         if (file.isFile()) {
-            return Optional.of(file.getName()+" "+file.length()+" bytes"); // print file name and size
+            return Optional.of(file.getName()+" "+file.length()+bytes); // print file name and size
         }
         if (file.isDirectory()) {
             return Optional.of(dirTree(file, new ArrayList<>())); // call method to print a tree
         }
         return Optional.empty();
-
     }
 
     private String dirTree(File folder, List<Boolean> lastFolders) {
@@ -46,7 +45,7 @@ public class FileTreeImpl implements FileTree {
                 }
             }
             if (files[i].isFile()) {
-                dir.append(i + 1 == count ? "└" : "├").append("─ ").append(files[i].getName()).append(" ").append(files[i].length()).append(" bytes"); // if next file is last one in a folder print "└─" if it's not last print "├─" then its name and size
+                dir.append(i + 1 == count ? "└" : "├").append("─ ").append(files[i].getName()).append(" ").append(files[i].length()).append(bytes); // if next file is last one in a folder print "└─" if it's not last print "├─" then its name and size
             } else {
                 lastFolders.add(i+1==count); // if next folder is last file in the present folder add true to the list
                 dir.append(dirTree(files[i], lastFolders)); // call recursively to add the structure of the folder to dir
@@ -72,7 +71,7 @@ public class FileTreeImpl implements FileTree {
         return size;
     }
     private String folderSize(File folder) {
-        return getFolderSize(folder) + " bytes";
+        return getFolderSize(folder) + bytes;
     }
     private File[] sortFiles(File[] folder) {
 
