@@ -2,10 +2,8 @@ package com.efimchick.ifmo.io.filetree;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.text.Collator;
+import java.util.*;
 
 public class FileTreeImpl implements FileTree {
     String bytes=" bytes";
@@ -75,7 +73,8 @@ public class FileTreeImpl implements FileTree {
     }
     private File[] sortFiles(File[] folder) {
 
-        Arrays.sort(folder);
+        Arrays.sort(folder, Comparator.comparing(o -> o.getName().toLowerCase(Locale.ROOT)));
+
         List<File> sorted = new ArrayList<>();
 
         for (File file : folder) {
