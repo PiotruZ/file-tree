@@ -47,9 +47,9 @@ public class FileTreeImpl implements FileTree {
             if (files[i].isFile()) {
                 dir.append(i + 1 == count ? "└" : "├").append("─ ").append(files[i].getName()).append(" ").append(files[i].length()).append(bytes); // if next file is last one in a folder print "└─" if it's not last print "├─" then its name and size
             } else {
-                ArrayList<Boolean> list = new ArrayList<>(lastFolders);
-                list.add(i+1 == count);  // if next folder is last file in the present folder add true to the list
-                dir.append(directoryTree(files[i], list));
+                lastFolders.add(i+1==count); // if next folder is last file in the present folder add true to the list
+                dir.append(directoryTree(files[i], lastFolders)); // call recursively to add the structure of the folder to dir
+                lastFolders.remove(lastFolders.size()-1); // remove boolean previously added for recursive call
             }
         }
         return dir.toString();
